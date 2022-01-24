@@ -4,8 +4,10 @@ project(pico-chip8 VERSION 0.1.0)
 
 pico_sdk_init()
 
+add_subdirectory(chip8)
+
 add_executable(pico-chip8 main.cpp)
-target_link_libraries(pico-chip8 pico_stdlib)
+target_link_libraries(pico-chip8 pico_stdlib chip8)
 
 pico_enable_stdio_usb(pico-chip8 1)
 pico_enable_stdio_uart(pico-chip8 0)
