@@ -9,8 +9,8 @@ add_subdirectory(chip8)
 add_executable(pico-chip8 main.cpp)
 target_link_libraries(pico-chip8 pico_stdlib chip8)
 
-pico_enable_stdio_usb(pico-chip8 1)
-pico_enable_stdio_uart(pico-chip8 0)
+pico_enable_stdio_usb(pico-chip8 0)
+pico_enable_stdio_uart(pico-chip8 1)
 
 pico_add_extra_outputs(pico-chip8)
 
