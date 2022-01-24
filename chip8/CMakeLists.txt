@@ -2,6 +2,7 @@ project(chip8)
 
 add_library(${PROJECT_NAME}
     src/machine.cpp
+    src/memory.cpp
 )
 
 target_include_directories(${PROJECT_NAME}

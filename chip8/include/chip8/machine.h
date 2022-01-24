@@ -12,5 +12,8 @@ namespace chip8
         Memory memory;
         Registers registers;
         Stack stack;
+
+    public:
+        bool load(std::size_t n);
     };
 };
