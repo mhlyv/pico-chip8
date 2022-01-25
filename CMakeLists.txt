@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.13)
 include(pico-sdk/pico_sdk_init.cmake)
 project(pico-chip8 VERSION 0.1.0)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+
 pico_sdk_init()
 
 add_subdirectory(chip8)

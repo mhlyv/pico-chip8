@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cstdint>
+#include <optional>
 
 namespace chip8
 {
@@ -15,6 +16,12 @@ namespace chip8
         // loads n bytes from the input stream into memory starting at program_start
         // returns false on failure
         bool load(std::size_t n);
+
+        // write byte at location, returns success (bound checked)
+        bool write(ptr_t ptr, std::uint8_t val);
+
+        // read value (bound checked)
+        std::optional<std::uint8_t> read(ptr_t ptr) const;
     };
 
     // entry point
