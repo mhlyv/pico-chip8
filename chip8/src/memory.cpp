@@ -6,6 +6,11 @@
 
 namespace chip8
 {
+    void Memory::reset()
+    {
+        this->fill(0);
+    }
+
     bool Memory::load(std::size_t n)
     {
         bool success = false;

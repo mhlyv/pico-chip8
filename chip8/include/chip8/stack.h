@@ -13,6 +13,8 @@ namespace chip8
     public:
         bool push(std::uint16_t val);
         std::uint16_t pop();
-        std::uint8_t size() const;
+
+        // reset stack pointer, clear data
+        void reset();
     };
 };

@@ -13,6 +13,9 @@ namespace chip8
     class Memory : private std::array<std::uint8_t, 0xfff>
     {
     public:
+        // clear memory
+        void reset();
+
         // loads n bytes from the input stream into memory starting at program_start
         // returns false on failure
         bool load(std::size_t n);

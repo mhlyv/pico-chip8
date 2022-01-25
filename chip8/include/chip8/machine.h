@@ -25,9 +25,12 @@ namespace chip8
         Registers registers;
         Stack stack;
 
-        inline std::optional<std::uint8_t> fetch();
+        inline std::optional<inst_t> fetch();
 
     public:
+        // reset everything, get ready for run
+        void reset();
+
         // load n bytes into memory from stdin
         bool load(std::size_t n);
 
