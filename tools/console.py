@@ -19,16 +19,26 @@ def read_assert(expected: str, ser: serial.Serial) -> bool:
     return True
 
 
+def force_write(message: bytes, ser: serial.Serial):
+    while len(message) != 0:
+        written = ser.write(message)
+        message = message[written:]
+    ser.flush()
+
+
 def load(file: str, ser: serial.Serial) -> bool:
     with open(file, "rb") as f:
         data = f.read()
 
     message = bytes(f"l {len(data)}\n", "utf-8") + data
-    while len(message) != 0:
-        written = ser.write(message)
-        message = message[written:]
-    ser.flush()
+    force_write(message, ser)
     return read_assert("l ok", ser)
+
+
+def run(ser: serial.Serial) -> bool:
+    message = b'r'
+    force_write(message, ser)
+    return read_assert("r ok", ser)
 
 
 def handle(cmd: list[str], ser: serial.Serial) -> bool:
@@ -37,6 +47,8 @@ def handle(cmd: list[str], ser: serial.Serial) -> bool:
     try:
         if cmd[0] == "load" and len(cmd) == 2:
             res = load(cmd[1], ser)
+        elif cmd[0] == "run" and len(cmd) == 1:
+            res = run(ser)
         elif cmd[0] == "exit" and len(cmd) == 1:
             return True
         else:

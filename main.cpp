@@ -38,6 +38,22 @@ int main()
             break;
         }
 
+        case 'r':
+        {
+            machine.reset();
+            for (int i = 0; i < 10; i++)
+            {
+                auto res = machine.exec_cycle();
+                if (res.has_value())
+                {
+                    std::cout << "r failed\n";
+                    break;
+                }
+            }
+            std::cout << "r ok\n";
+            break;
+        }
+
         default:
             // shouldn't happen, if it does, the desktop client fucked up
             panic("unexpected command: %c\n", cmd);
