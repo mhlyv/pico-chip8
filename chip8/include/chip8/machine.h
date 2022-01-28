@@ -25,6 +25,8 @@ namespace chip8
         Registers registers;
         Stack stack;
 
+        // try to read the next instruction from memory, and increment
+        // the program counter accordingly
         inline std::optional<inst_t> fetch();
 
     public:

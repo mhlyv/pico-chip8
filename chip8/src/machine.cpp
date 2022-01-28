@@ -18,31 +18,34 @@ namespace chip8
         return memory.load(n);
     }
 
-    // read byte from memory at the program counter, then increment the program counter
     inline std::optional<inst_t> Machine::fetch()
     {
-        const auto ret = this->memory.read(this->registers.PC);
-        this->registers.PC++;
+        std::optional<inst_t> ret = std::nullopt;
+        const std::optional<inst_t> msb = this->memory.read(this->registers.PC);
+        const std::optional<inst_t> lsb = this->memory.read(this->registers.PC + 1);
+
+        this->registers.PC += 2;
+
+        if (msb.has_value() && lsb.has_value())
+        {
+            ret = msb.value() << 8 | lsb.value();
+        }
+
         return ret;
     }
 
     std::optional<Error> Machine::exec_cycle()
     {
-        const std::optional<inst_t> msb = fetch();
-        const std::optional<inst_t> lsb = fetch();
         std::optional<Error> err = std::nullopt;
+        const auto instruction = fetch();
 
-        // check if we actually got the bytes
-        if (msb.has_value() && lsb.has_value())
+        if (instruction.has_value())
         {
-            // safe to unwrap instuction
-            inst_t instruction = msb.value() << 8 | lsb.value();
-
             // TODO handle instruction
         }
         else
         {
-            // the program counter isn't valid
+            // the program counter went out of the memory
             err = Error::PCOutOfBounds;
         }
 
