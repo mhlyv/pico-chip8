@@ -3,6 +3,7 @@
 #include "pico/stdlib.h"
 #include "pico/platform.h"
 #include "chip8/machine.h"
+#include "ST7735S/display.h"
 
 int main()
 {
@@ -11,7 +12,8 @@ int main()
     // first byte seems to be always 255, I don't know why, so just ignore that
     std::cin.ignore();
 
-    chip8::Machine machine;
+    ST7735S::Display display;
+    chip8::Machine machine(display);
 
     for (;;)
     {
