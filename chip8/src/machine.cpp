@@ -3,9 +3,12 @@
 
 #include "chip8/machine.h"
 #include "chip8/memory.h"
+#include "chip8/display.h"
 
 namespace chip8
 {
+    Machine::Machine(Display &display) : display(display) {}
+
     void Machine::reset()
     {
         this->registers.reset();

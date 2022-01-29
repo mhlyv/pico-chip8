@@ -6,6 +6,7 @@
 #include "chip8/memory.h"
 #include "chip8/registers.h"
 #include "chip8/stack.h"
+#include "chip8/display.h"
 
 namespace chip8
 {
@@ -24,12 +25,15 @@ namespace chip8
         Memory memory;
         Registers registers;
         Stack stack;
+        Display &display;
 
         // try to read the next instruction from memory, and increment
         // the program counter accordingly
         inline std::optional<inst_t> fetch();
 
     public:
+        Machine(Display &display);
+
         // reset everything, get ready for run
         void reset();
 
