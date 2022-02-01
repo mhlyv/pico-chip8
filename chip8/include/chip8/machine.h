@@ -47,6 +47,9 @@ namespace chip8
         // skip next instruction if Vx != kk
         inline std::optional<Error> skip_neq(std::uint8_t x, std::uint8_t kk);
 
+        // skip next instruction if Vx != Vy
+        inline std::optional<Error> skip_req(std::uint8_t x, std::uint8_t y);
+
     public:
         Machine(Display &display);
 

@@ -53,6 +53,19 @@ namespace chip8
             break;
         }
 
+        case 0x5:
+        {
+            if ((inst & 0x000f) == 0)
+            {
+                err = skip_req((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+            }
+            else
+            {
+                err = Error::InvalidInstruction;
+            }
+            break;
+        }
+
         default:
             err = Error::InvalidInstruction;
             break;
@@ -147,6 +160,25 @@ namespace chip8
         std::optional<Error> err = std::nullopt;
 
         if (registers.general[x] != kk)
+        {
+            if (registers.PC + 2 >= memory.size())
+            {
+                err = Error::AddressOutOfBounds;
+            }
+            else
+            {
+                registers.PC += 2;
+            }
+        }
+
+        return err;
+    }
+
+    inline std::optional<Error> Machine::skip_req(std::uint8_t x, std::uint8_t y)
+    {
+        std::optional<Error> err = std::nullopt;
+
+        if (registers.general[x] == registers.general[y])
         {
             if (registers.PC + 2 >= memory.size())
             {
