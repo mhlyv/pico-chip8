@@ -35,6 +35,18 @@ namespace chip8
             break;
         }
 
+        case 0x2:
+        {
+            err = call(inst & 0x0fff);
+            break;
+        }
+
+        case 0x3:
+        {
+            err = skip_eq((inst & 0x0f00) >> 8, inst & 0x00ff);
+            break;
+        }
+
         default:
             err = Error::InvalidInstruction;
             break;
@@ -84,4 +96,43 @@ namespace chip8
         return err;
     }
 
+    inline std::optional<Error> Machine::call(ptr_t addr)
+    {
+        std::optional<Error> err = std::nullopt;
+
+        if (addr >= memory.size())
+        {
+            err = Error::AddressOutOfBounds;
+        }
+        else
+        {
+            err = stack.push(registers.PC);
+
+            if (!err.has_value())
+            {
+                registers.PC = addr;
+            }
+        }
+
+        return err;
+    }
+
+    inline std::optional<Error> Machine::skip_eq(std::uint8_t x, std::uint8_t kk)
+    {
+        std::optional<Error> err = std::nullopt;
+
+        if (registers.general[x] == kk)
+        {
+            if (registers.PC + 2 >= memory.size())
+            {
+                err = Error::AddressOutOfBounds;
+            }
+            else
+            {
+                registers.PC += 2;
+            }
+        }
+
+        return err;
+    }
 };

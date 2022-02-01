@@ -38,6 +38,12 @@ namespace chip8
         // jump to address
         inline std::optional<Error> jmp(ptr_t addr);
 
+        // call subroutine at address
+        inline std::optional<Error> call(ptr_t addr);
+
+        // skip next instruction if Vx == kk
+        inline std::optional<Error> skip_eq(std::uint8_t x, std::uint8_t kk);
+
     public:
         Machine(Display &display);
 
