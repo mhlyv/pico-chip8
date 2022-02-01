@@ -6,6 +6,7 @@ namespace chip8
     enum Error
     {
         PCOutOfBounds,
+        AddressOutOfBounds,
         InvalidInstruction,
         StackOverflow,
         StackEmpty,

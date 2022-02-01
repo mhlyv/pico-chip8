@@ -29,6 +29,12 @@ namespace chip8
             break;
         }
 
+        case 0x1:
+        {
+            err = jmp(inst & 0x0fff);
+            break;
+        }
+
         default:
             err = Error::InvalidInstruction;
             break;
@@ -55,6 +61,24 @@ namespace chip8
         else
         {
             err = Error::StackEmpty;
+        }
+
+        return err;
+    }
+
+    inline std::optional<Error> Machine::jmp(ptr_t addr)
+    {
+        std::optional<Error> err = std::nullopt;
+
+        // I don't know if I should check if the address is even
+
+        if (addr >= memory.size())
+        {
+            err = Error::AddressOutOfBounds;
+        }
+        else
+        {
+            registers.PC = addr;
         }
 
         return err;

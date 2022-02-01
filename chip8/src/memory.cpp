@@ -11,9 +11,9 @@ namespace chip8
         this->fill(0);
     }
 
-    bool Memory::load(std::size_t n)
+    std::optional<Error> Memory::load(std::size_t n)
     {
-        bool success = false;
+        std::optional<Error> err = std::nullopt;
 
         if (n + program_start <= this->size())
         {
@@ -21,24 +21,29 @@ namespace chip8
             {
                 this->operator[](i + program_start) = std::cin.get();
             }
-
-            success = true;
+        }
+        else
+        {
+            err = Error::AddressOutOfBounds;
         }
 
-        return success;
+        return err;
     }
 
-    bool Memory::write(ptr_t ptr, std::uint8_t val)
+    std::optional<Error> Memory::write(ptr_t ptr, std::uint8_t val)
     {
-        bool res = false;
+        std::optional<Error> err = std::nullopt;
 
-        if (this->size() > ptr)
+        if (size() > ptr)
         {
             this->operator[](ptr) = val;
-            res = true;
+        }
+        else
+        {
+            err = Error::AddressOutOfBounds;
         }
 
-        return res;
+        return err;
     }
 
     std::optional<std::uint8_t> Memory::read(ptr_t ptr) const

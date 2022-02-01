@@ -15,7 +15,7 @@ namespace chip8
         this->stack.reset();
     }
 
-    bool Machine::load(std::size_t n)
+    std::optional<Error> Machine::load(std::size_t n)
     {
         memory.reset();
         return memory.load(n);

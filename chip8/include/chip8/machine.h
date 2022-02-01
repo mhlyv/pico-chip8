@@ -35,6 +35,9 @@ namespace chip8
         // return from subroutine
         inline std::optional<Error> ret();
 
+        // jump to address
+        inline std::optional<Error> jmp(ptr_t addr);
+
     public:
         Machine(Display &display);
 
@@ -42,7 +45,7 @@ namespace chip8
         void reset();
 
         // load n bytes into memory from stdin
-        bool load(std::size_t n);
+        std::optional<Error> load(std::size_t n);
 
         // execute next instruction from memory
         std::optional<Error> exec_cycle();

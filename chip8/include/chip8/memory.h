@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <optional>
 
+#include "chip8/error.h"
+
 namespace chip8
 {
     // memory is addressable with 12 bits
@@ -16,12 +18,15 @@ namespace chip8
         // clear memory
         void reset();
 
+        // make size() public
+        using std::array<std::uint8_t, 0xfff>::size;
+
         // loads n bytes from the input stream into memory starting at program_start
         // returns false on failure
-        bool load(std::size_t n);
+        std::optional<Error> load(std::size_t n);
 
         // write byte at location, returns success (bound checked)
-        bool write(ptr_t ptr, std::uint8_t val);
+        std::optional<Error> write(ptr_t ptr, std::uint8_t val);
 
         // read value (bound checked)
         std::optional<std::uint8_t> read(ptr_t ptr) const;

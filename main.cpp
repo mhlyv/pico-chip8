@@ -28,8 +28,8 @@ int main()
             std::size_t n;
             std::cin >> n;
             std::cin.ignore();
-            bool success = machine.load(n);
-            if (success)
+            auto err = machine.load(n);
+            if (!err.has_value())
             {
                 std::cout << "l ok\n";
             }
