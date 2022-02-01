@@ -47,6 +47,12 @@ namespace chip8
             break;
         }
 
+        case 0x4:
+        {
+            err = skip_neq((inst & 0x0f00) >> 8, inst & 0x00ff);
+            break;
+        }
+
         default:
             err = Error::InvalidInstruction;
             break;
@@ -122,6 +128,25 @@ namespace chip8
         std::optional<Error> err = std::nullopt;
 
         if (registers.general[x] == kk)
+        {
+            if (registers.PC + 2 >= memory.size())
+            {
+                err = Error::AddressOutOfBounds;
+            }
+            else
+            {
+                registers.PC += 2;
+            }
+        }
+
+        return err;
+    }
+
+    inline std::optional<Error> Machine::skip_neq(std::uint8_t x, std::uint8_t kk)
+    {
+        std::optional<Error> err = std::nullopt;
+
+        if (registers.general[x] != kk)
         {
             if (registers.PC + 2 >= memory.size())
             {
