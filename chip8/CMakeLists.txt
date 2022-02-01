@@ -5,6 +5,7 @@ add_library(${PROJECT_NAME}
     src/memory.cpp
     src/registers.cpp
     src/stack.cpp
+    src/instructions.cpp
 )
 
 target_include_directories(${PROJECT_NAME}

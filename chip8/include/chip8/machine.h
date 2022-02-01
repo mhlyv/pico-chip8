@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <optional>
 
+#include "chip8/error.h"
 #include "chip8/memory.h"
 #include "chip8/registers.h"
 #include "chip8/stack.h"
@@ -12,12 +13,6 @@ namespace chip8
 {
     // an instruction in 16 bits
     typedef std::uint16_t inst_t;
-
-    // runtime errors caused by execution of instructions in memory
-    enum Error
-    {
-        PCOutOfBounds,
-    };
 
     class Machine
     {
@@ -30,6 +25,15 @@ namespace chip8
         // try to read the next instruction from memory, and increment
         // the program counter accordingly
         inline std::optional<inst_t> fetch();
+
+        // execute instruction
+        std::optional<Error> exec(inst_t inst);
+
+        // clear display
+        inline void cls() const;
+
+        // return from subroutine
+        inline std::optional<Error> ret();
 
     public:
         Machine(Display &display);

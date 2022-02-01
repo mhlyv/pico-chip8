@@ -43,16 +43,14 @@ int main()
         case 'r':
         {
             machine.reset();
-            for (int i = 0; i < 10; i++)
+            std::optional<chip8::Error> err = std::nullopt;
+
+            while (!err.has_value())
             {
-                auto res = machine.exec_cycle();
-                if (res.has_value())
-                {
-                    std::cout << "r failed\n";
-                    break;
-                }
+                err = machine.exec_cycle();
             }
-            std::cout << "r ok\n";
+
+            std::cout << "r failed\n";
             break;
         }
 

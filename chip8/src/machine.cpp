@@ -44,7 +44,7 @@ namespace chip8
 
         if (instruction.has_value())
         {
-            // TODO handle instruction
+            err = exec(instruction.value());
         }
         else
         {
