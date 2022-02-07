@@ -123,7 +123,10 @@ def translate(inst):
 with open(binfile, "wb") as bf:
     with open(asmfile) as af:
         for l in af:
-            inst = l.strip().split()
+            inst = l.strip().split(';')[0].split()
+
+            if len(inst) == 0:
+                continue
 
             try:
                 code = translate(inst)
