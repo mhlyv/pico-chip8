@@ -21,14 +21,14 @@ def valid_inst(inst, name, length):
 def get_reg(reg):
     l = list(reg)
     if l[0] != 'V' or len(l) != 2:
-        raise "invalid register"
+        raise RuntimeError(f"invalid register: {reg}")
     return int(l[1], base=16)
 
 
 def get_nbits(val, n):
     v = int(val, base=0)
     if v >> n != 0:
-        raise f"invalid {n} bit integer: {val}"
+        raise RuntimeError(f"invalid {n} bit integer: {val}")
     return v
 
 
@@ -57,7 +57,7 @@ def translate(inst):
         return 0x5000 | reg1 << 8 | reg2 << 4
     elif valid_inst(inst, "ld", 3):
         reg = get_reg(inst[1])
-        val = get_nbits(inst[1], 2*4)
+        val = get_nbits(inst[2], 2*4)
         return 0x6000 | reg << 8 | val
     elif valid_inst(inst, "add", 3):
         reg = get_reg(inst[1])
@@ -117,7 +117,7 @@ def translate(inst):
         n = get_nbits(inst[3], 4)
         return 0xd000 | reg1 << 8 | reg2 << 4 | n
     else:
-        raise f"{inst}: instruction invalid or not implemented"
+        raise RuntimeError(f"{inst}: instruction invalid or not implemented")
 
 
 with open(binfile, "wb") as bf:
