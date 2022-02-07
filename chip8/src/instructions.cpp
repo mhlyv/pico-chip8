@@ -66,6 +66,12 @@ namespace chip8
             break;
         }
 
+        case 0x6:
+        {
+            err = load((inst & 0x0f00) >> 8, inst & 0x00ff);
+            break;
+        }
+
         default:
             err = Error::InvalidInstruction;
             break;
@@ -192,4 +198,11 @@ namespace chip8
 
         return err;
     }
+
+    inline std::optional<Error> Machine::load(std::uint8_t x, std::uint8_t kk)
+    {
+        registers.general[x] = kk;
+        return std::nullopt;
+    }
+
 };

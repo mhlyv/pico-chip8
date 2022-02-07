@@ -50,6 +50,9 @@ namespace chip8
         // skip next instruction if Vx != Vy
         inline std::optional<Error> skip_req(std::uint8_t x, std::uint8_t y);
 
+        // load kk into Vx
+        inline std::optional<Error> load(std::uint8_t x, std::uint8_t kk);
+
     public:
         Machine(Display &display);
 
