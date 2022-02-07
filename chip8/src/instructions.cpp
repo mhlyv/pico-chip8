@@ -72,6 +72,31 @@ namespace chip8
             break;
         }
 
+        case 0x7:
+        {
+            err = add((inst & 0x0f00) >> 8, inst & 0x00ff);
+            break;
+        }
+
+        case 0x8:
+        {
+            switch (inst & 0x000f)
+            {
+            case 0:
+            {
+                err = loadr((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                break;
+            }
+
+            default:
+            {
+                err = Error::InvalidInstruction;
+                break;
+            }
+            }
+            break;
+        }
+
         default:
             err = Error::InvalidInstruction;
             break;
@@ -202,6 +227,18 @@ namespace chip8
     inline std::optional<Error> Machine::load(std::uint8_t x, std::uint8_t kk)
     {
         registers.general[x] = kk;
+        return std::nullopt;
+    }
+
+    inline std::optional<Error> Machine::add(std::uint8_t x, std::uint8_t kk)
+    {
+        registers.general[x] += kk;
+        return std::nullopt;
+    }
+
+    inline std::optional<Error> Machine::loadr(std::uint8_t x, std::uint8_t y)
+    {
+        registers.general[x] = registers.general[y];
         return std::nullopt;
     }
 

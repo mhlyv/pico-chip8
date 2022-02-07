@@ -53,6 +53,12 @@ namespace chip8
         // load kk into Vx
         inline std::optional<Error> load(std::uint8_t x, std::uint8_t kk);
 
+        // Vx = Vx + kk
+        inline std::optional<Error> add(std::uint8_t x, std::uint8_t kk);
+
+        // load Vy into Vx
+        inline std::optional<Error> loadr(std::uint8_t x, std::uint8_t y);
+
     public:
         Machine(Display &display);
 
