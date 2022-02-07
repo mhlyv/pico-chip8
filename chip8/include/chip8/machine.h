@@ -59,6 +59,15 @@ namespace chip8
         // load Vy into Vx
         inline std::optional<Error> loadr(std::uint8_t x, std::uint8_t y);
 
+        // Vx = Vx | Vy
+        inline std::optional<Error> bin_or(std::uint8_t x, std::uint8_t y);
+
+        // Vx = Vx & Vy
+        inline std::optional<Error> bin_and(std::uint8_t x, std::uint8_t y);
+
+        // Vx = Vx ^ Vy
+        inline std::optional<Error> bin_xor(std::uint8_t x, std::uint8_t y);
+
     public:
         Machine(Display &display);
 

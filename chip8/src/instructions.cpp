@@ -88,6 +88,24 @@ namespace chip8
                 break;
             }
 
+            case 1:
+            {
+                err = bin_or((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                break;
+            }
+
+            case 2:
+            {
+                err = bin_and((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                break;
+            }
+
+            case 3:
+            {
+                err = bin_xor((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                break;
+            }
+
             default:
             {
                 err = Error::InvalidInstruction;
@@ -242,4 +260,21 @@ namespace chip8
         return std::nullopt;
     }
 
+    inline std::optional<Error> Machine::bin_or(std::uint8_t x, std::uint8_t y)
+    {
+        registers.general[x] |= registers.general[y];
+        return std::nullopt;
+    }
+
+    inline std::optional<Error> Machine::bin_and(std::uint8_t x, std::uint8_t y)
+    {
+        registers.general[x] &= registers.general[y];
+        return std::nullopt;
+    }
+
+    inline std::optional<Error> Machine::bin_xor(std::uint8_t x, std::uint8_t y)
+    {
+        registers.general[x] ^= registers.general[y];
+        return std::nullopt;
+    }
 };
