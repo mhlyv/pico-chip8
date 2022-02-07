@@ -68,6 +68,12 @@ namespace chip8
         // Vx = Vx ^ Vy
         inline std::optional<Error> bin_xor(std::uint8_t x, std::uint8_t y);
 
+        // Vx = Vx + Vy, with carry bit in Vf
+        inline std::optional<Error> add_carry(std::uint8_t x, std::uint8_t y);
+
+        // Vx = Vx - Vy, Vf = Vx > Vy ? 1 : 0
+        inline std::optional<Error> sub(std::uint8_t x, std::uint8_t y);
+
     public:
         Machine(Display &display);
 

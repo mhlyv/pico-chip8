@@ -106,6 +106,18 @@ namespace chip8
                 break;
             }
 
+            case 4:
+            {
+                err = add_carry((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                break;
+            }
+
+            case 5:
+            {
+                err = sub((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                break;
+            }
+
             default:
             {
                 err = Error::InvalidInstruction;
@@ -275,6 +287,24 @@ namespace chip8
     inline std::optional<Error> Machine::bin_xor(std::uint8_t x, std::uint8_t y)
     {
         registers.general[x] ^= registers.general[y];
+        return std::nullopt;
+    }
+
+    inline std::optional<Error> Machine::add_carry(std::uint8_t x, std::uint8_t y)
+    {
+        const std::uint16_t res = (std::uint16_t)registers.general[x] + (std::uint16_t)registers.general[y];
+        const std::uint8_t carry = (res & 0xff00) == 0 ? 0 : 1;
+
+        registers.general[0xf] = carry;
+        registers.general[x] = (res & 0x00ff);
+
+        return std::nullopt;
+    }
+
+    inline std::optional<Error> Machine::sub(std::uint8_t x, std::uint8_t y)
+    {
+        registers.general[0xf] = registers.general[x] > registers.general[y] ? 1 : 0;
+        registers.general[x] -= registers.general[y];
         return std::nullopt;
     }
 };
