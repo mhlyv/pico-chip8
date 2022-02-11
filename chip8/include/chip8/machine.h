@@ -83,6 +83,9 @@ namespace chip8
         // Vx = Vx << 1
         inline void shl(std::uint8_t x);
 
+        // skip next instruction if Vx != Vy
+        std::optional<Error> skip_neq_reg(std::uint8_t x, std::uint8_t y);
+
     public:
         Machine(Display &display);
 

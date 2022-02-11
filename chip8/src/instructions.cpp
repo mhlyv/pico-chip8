@@ -145,6 +145,25 @@ namespace chip8
             break;
         }
 
+        case 0x9:
+        {
+            switch (inst & 0x000f)
+            {
+            case 0:
+            {
+                err = skip_neq_reg((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                break;
+            }
+
+            default:
+            {
+                err = Error::InvalidInstruction;
+                break;
+            }
+            }
+            break;
+        }
+
         default:
             err = Error::InvalidInstruction;
             break;
@@ -333,5 +352,24 @@ namespace chip8
     {
         registers.general[0xf] = registers.general[x] & 1 << 7;
         registers.general[x] <<= 1;
+    }
+
+    std::optional<Error> Machine::skip_neq_reg(std::uint8_t x, std::uint8_t y)
+    {
+        std::optional<Error> err = std::nullopt;
+
+        if (registers.general[x] != registers.general[y])
+        {
+            if (registers.PC + 2 >= memory.size())
+            {
+                err = Error::AddressOutOfBounds;
+            }
+            else
+            {
+                registers.PC += 2;
+            }
+        }
+
+        return err;
     }
 };
