@@ -94,7 +94,7 @@ def translate(inst):
         reg1 = get_reg(inst[1])
         reg2 = get_reg(inst[2])
         return 0x8007 | reg1 << 8 | reg2 << 4
-    elif valid_inst(inst, "shl", 3):
+    elif valid_inst(inst, "shl", 2):
         reg1 = get_reg(inst[1])
         return 0x8006 | reg1 << 8
     elif valid_inst(inst, "sner", 3):
