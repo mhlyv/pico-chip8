@@ -74,6 +74,9 @@ namespace chip8
         // Vx = Vx - Vy, Vf = Vx > Vy ? 1 : 0
         inline void sub(std::uint8_t x, std::uint8_t y);
 
+        // Vx = Vx >> 1
+        inline void shr(std::uint8_t x);
+
     public:
         Machine(Display &display);
 

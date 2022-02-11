@@ -118,6 +118,12 @@ namespace chip8
                 break;
             }
 
+            case 6:
+            {
+                shr((inst & 0x0f00) >> 8);
+                break;
+            }
+
             default:
             {
                 err = Error::InvalidInstruction;
@@ -297,5 +303,11 @@ namespace chip8
     {
         registers.general[0xf] = registers.general[x] > registers.general[y] ? 1 : 0;
         registers.general[x] -= registers.general[y];
+    }
+
+    inline void Machine::shr(std::uint8_t x)
+    {
+        registers.general[0xf] = registers.general[x] & 1;
+        registers.general[x] >>= 1;
     }
 };
