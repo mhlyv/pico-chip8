@@ -130,6 +130,12 @@ namespace chip8
                 break;
             }
 
+            case 0xe:
+            {
+                shl((inst & 0x0f00) >> 8);
+                break;
+            }
+
             default:
             {
                 err = Error::InvalidInstruction;
@@ -321,5 +327,11 @@ namespace chip8
     {
         registers.general[0xf] = registers.general[y] > registers.general[x] ? 1 : 0;
         registers.general[x] = registers.general[y] - registers.general[x];
+    }
+
+    inline void Machine::shl(std::uint8_t x)
+    {
+        registers.general[0xf] = registers.general[x] & 1 << 7;
+        registers.general[x] <<= 1;
     }
 };
