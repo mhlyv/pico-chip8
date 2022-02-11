@@ -57,7 +57,7 @@ namespace chip8
         {
             if ((inst & 0x000f) == 0)
             {
-                err = skip_req((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                err = skip_eq_reg((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
             }
             else
             {
@@ -253,7 +253,7 @@ namespace chip8
         return err;
     }
 
-    std::optional<Error> Machine::skip_req(std::uint8_t x, std::uint8_t y)
+    std::optional<Error> Machine::skip_eq_reg(std::uint8_t x, std::uint8_t y)
     {
         std::optional<Error> err = std::nullopt;
 

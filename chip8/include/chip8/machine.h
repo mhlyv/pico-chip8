@@ -47,8 +47,8 @@ namespace chip8
         // skip next instruction if Vx != kk
         std::optional<Error> skip_neq(std::uint8_t x, std::uint8_t kk);
 
-        // skip next instruction if Vx != Vy
-        std::optional<Error> skip_req(std::uint8_t x, std::uint8_t y);
+        // skip next instruction if Vx == Vy
+        std::optional<Error> skip_eq_reg(std::uint8_t x, std::uint8_t y);
 
         // load kk into Vx
         inline void load(std::uint8_t x, std::uint8_t kk);
