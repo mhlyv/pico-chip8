@@ -33,46 +33,46 @@ namespace chip8
         inline void cls() const;
 
         // return from subroutine
-        inline std::optional<Error> ret();
+        std::optional<Error> ret();
 
         // jump to address
-        inline std::optional<Error> jmp(ptr_t addr);
+        std::optional<Error> jmp(ptr_t addr);
 
         // call subroutine at address
-        inline std::optional<Error> call(ptr_t addr);
+        std::optional<Error> call(ptr_t addr);
 
         // skip next instruction if Vx == kk
-        inline std::optional<Error> skip_eq(std::uint8_t x, std::uint8_t kk);
+        std::optional<Error> skip_eq(std::uint8_t x, std::uint8_t kk);
 
         // skip next instruction if Vx != kk
-        inline std::optional<Error> skip_neq(std::uint8_t x, std::uint8_t kk);
+        std::optional<Error> skip_neq(std::uint8_t x, std::uint8_t kk);
 
         // skip next instruction if Vx != Vy
-        inline std::optional<Error> skip_req(std::uint8_t x, std::uint8_t y);
+        std::optional<Error> skip_req(std::uint8_t x, std::uint8_t y);
 
         // load kk into Vx
-        inline std::optional<Error> load(std::uint8_t x, std::uint8_t kk);
+        inline void load(std::uint8_t x, std::uint8_t kk);
 
         // Vx = Vx + kk
-        inline std::optional<Error> add(std::uint8_t x, std::uint8_t kk);
+        inline void add(std::uint8_t x, std::uint8_t kk);
 
         // load Vy into Vx
-        inline std::optional<Error> loadr(std::uint8_t x, std::uint8_t y);
+        inline void loadr(std::uint8_t x, std::uint8_t y);
 
         // Vx = Vx | Vy
-        inline std::optional<Error> bin_or(std::uint8_t x, std::uint8_t y);
+        inline void bin_or(std::uint8_t x, std::uint8_t y);
 
         // Vx = Vx & Vy
-        inline std::optional<Error> bin_and(std::uint8_t x, std::uint8_t y);
+        inline void bin_and(std::uint8_t x, std::uint8_t y);
 
         // Vx = Vx ^ Vy
-        inline std::optional<Error> bin_xor(std::uint8_t x, std::uint8_t y);
+        inline void bin_xor(std::uint8_t x, std::uint8_t y);
 
         // Vx = Vx + Vy, with carry bit in Vf
-        inline std::optional<Error> add_carry(std::uint8_t x, std::uint8_t y);
+        inline void add_carry(std::uint8_t x, std::uint8_t y);
 
         // Vx = Vx - Vy, Vf = Vx > Vy ? 1 : 0
-        inline std::optional<Error> sub(std::uint8_t x, std::uint8_t y);
+        inline void sub(std::uint8_t x, std::uint8_t y);
 
     public:
         Machine(Display &display);

@@ -68,13 +68,13 @@ namespace chip8
 
         case 0x6:
         {
-            err = load((inst & 0x0f00) >> 8, inst & 0x00ff);
+            load((inst & 0x0f00) >> 8, inst & 0x00ff);
             break;
         }
 
         case 0x7:
         {
-            err = add((inst & 0x0f00) >> 8, inst & 0x00ff);
+            add((inst & 0x0f00) >> 8, inst & 0x00ff);
             break;
         }
 
@@ -84,37 +84,37 @@ namespace chip8
             {
             case 0:
             {
-                err = loadr((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                loadr((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
                 break;
             }
 
             case 1:
             {
-                err = bin_or((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                bin_or((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
                 break;
             }
 
             case 2:
             {
-                err = bin_and((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                bin_and((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
                 break;
             }
 
             case 3:
             {
-                err = bin_xor((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                bin_xor((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
                 break;
             }
 
             case 4:
             {
-                err = add_carry((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                add_carry((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
                 break;
             }
 
             case 5:
             {
-                err = sub((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                sub((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
                 break;
             }
 
@@ -140,7 +140,7 @@ namespace chip8
         this->display.clear();
     }
 
-    inline std::optional<Error> Machine::ret()
+    std::optional<Error> Machine::ret()
     {
         std::optional<Error> err = std::nullopt;
 
@@ -158,7 +158,7 @@ namespace chip8
         return err;
     }
 
-    inline std::optional<Error> Machine::jmp(ptr_t addr)
+    std::optional<Error> Machine::jmp(ptr_t addr)
     {
         std::optional<Error> err = std::nullopt;
 
@@ -176,7 +176,7 @@ namespace chip8
         return err;
     }
 
-    inline std::optional<Error> Machine::call(ptr_t addr)
+    std::optional<Error> Machine::call(ptr_t addr)
     {
         std::optional<Error> err = std::nullopt;
 
@@ -197,7 +197,7 @@ namespace chip8
         return err;
     }
 
-    inline std::optional<Error> Machine::skip_eq(std::uint8_t x, std::uint8_t kk)
+    std::optional<Error> Machine::skip_eq(std::uint8_t x, std::uint8_t kk)
     {
         std::optional<Error> err = std::nullopt;
 
@@ -216,7 +216,7 @@ namespace chip8
         return err;
     }
 
-    inline std::optional<Error> Machine::skip_neq(std::uint8_t x, std::uint8_t kk)
+    std::optional<Error> Machine::skip_neq(std::uint8_t x, std::uint8_t kk)
     {
         std::optional<Error> err = std::nullopt;
 
@@ -235,7 +235,7 @@ namespace chip8
         return err;
     }
 
-    inline std::optional<Error> Machine::skip_req(std::uint8_t x, std::uint8_t y)
+    std::optional<Error> Machine::skip_req(std::uint8_t x, std::uint8_t y)
     {
         std::optional<Error> err = std::nullopt;
 
@@ -254,57 +254,48 @@ namespace chip8
         return err;
     }
 
-    inline std::optional<Error> Machine::load(std::uint8_t x, std::uint8_t kk)
+    inline void Machine::load(std::uint8_t x, std::uint8_t kk)
     {
         registers.general[x] = kk;
-        return std::nullopt;
     }
 
-    inline std::optional<Error> Machine::add(std::uint8_t x, std::uint8_t kk)
+    inline void Machine::add(std::uint8_t x, std::uint8_t kk)
     {
         registers.general[x] += kk;
-        return std::nullopt;
     }
 
-    inline std::optional<Error> Machine::loadr(std::uint8_t x, std::uint8_t y)
+    inline void Machine::loadr(std::uint8_t x, std::uint8_t y)
     {
         registers.general[x] = registers.general[y];
-        return std::nullopt;
     }
 
-    inline std::optional<Error> Machine::bin_or(std::uint8_t x, std::uint8_t y)
+    inline void Machine::bin_or(std::uint8_t x, std::uint8_t y)
     {
         registers.general[x] |= registers.general[y];
-        return std::nullopt;
     }
 
-    inline std::optional<Error> Machine::bin_and(std::uint8_t x, std::uint8_t y)
+    inline void Machine::bin_and(std::uint8_t x, std::uint8_t y)
     {
         registers.general[x] &= registers.general[y];
-        return std::nullopt;
     }
 
-    inline std::optional<Error> Machine::bin_xor(std::uint8_t x, std::uint8_t y)
+    inline void Machine::bin_xor(std::uint8_t x, std::uint8_t y)
     {
         registers.general[x] ^= registers.general[y];
-        return std::nullopt;
     }
 
-    inline std::optional<Error> Machine::add_carry(std::uint8_t x, std::uint8_t y)
+    inline void Machine::add_carry(std::uint8_t x, std::uint8_t y)
     {
         const std::uint16_t res = (std::uint16_t)registers.general[x] + (std::uint16_t)registers.general[y];
         const std::uint8_t carry = (res & 0xff00) == 0 ? 0 : 1;
 
         registers.general[0xf] = carry;
         registers.general[x] = (res & 0x00ff);
-
-        return std::nullopt;
     }
 
-    inline std::optional<Error> Machine::sub(std::uint8_t x, std::uint8_t y)
+    inline void Machine::sub(std::uint8_t x, std::uint8_t y)
     {
         registers.general[0xf] = registers.general[x] > registers.general[y] ? 1 : 0;
         registers.general[x] -= registers.general[y];
-        return std::nullopt;
     }
 };
