@@ -124,6 +124,12 @@ namespace chip8
                 break;
             }
 
+            case 7:
+            {
+                subn((inst & 0x0f00) >> 8, (inst & 0x00f0) >> 4);
+                break;
+            }
+
             default:
             {
                 err = Error::InvalidInstruction;
@@ -309,5 +315,11 @@ namespace chip8
     {
         registers.general[0xf] = registers.general[x] & 1;
         registers.general[x] >>= 1;
+    }
+
+    inline void Machine::subn(std::uint8_t x, std::uint8_t y)
+    {
+        registers.general[0xf] = registers.general[y] > registers.general[x] ? 1 : 0;
+        registers.general[x] = registers.general[y] - registers.general[x];
     }
 };
