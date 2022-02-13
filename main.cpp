@@ -1,12 +1,45 @@
 #include <iostream>
+#include <cstdlib>
+#include <cstdint>
 
 #include "pico/stdlib.h"
 #include "pico/platform.h"
+#include "hardware/regs/rosc.h"
+
 #include "chip8/machine.h"
 #include "ST7735S/display.h"
 
+std::uint8_t get_rosc_rand()
+{
+    std::uint8_t byte = 0;
+    volatile std::uint32_t *rnd_reg = (std::uint32_t *)(ROSC_BASE + ROSC_RANDOMBIT_OFFSET);
+
+    for (std::uint8_t i = 0; i < 8; i++)
+    {
+        byte = (byte << 1) | (*rnd_reg & 1);
+    }
+
+    return byte;
+}
+
+// random number generator with FNV-1a hash algorithm
+std::uint32_t hw_fnv_32()
+{
+    std::uint32_t hash = 0x811c9dc5;
+
+    // hash 32 bytes of random data
+    for (std::uint8_t i = 0; i < 32; i++)
+    {
+        hash ^= get_rosc_rand();
+        hash *= 0x01000193;
+    }
+
+    return hash;
+}
+
 int main()
 {
+    std::srand(hw_fnv_32());
     stdio_init_all();
 
     // first byte seems to be always 255, I don't know why, so just ignore that

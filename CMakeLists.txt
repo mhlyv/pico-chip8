@@ -12,6 +12,7 @@ add_subdirectory(ST7735S)
 add_executable(pico-chip8 main.cpp)
 target_link_libraries(pico-chip8
     pico_stdlib
+    hardware_regs
     chip8
     ST7735S
 )
