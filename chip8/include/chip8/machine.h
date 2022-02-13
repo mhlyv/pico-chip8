@@ -89,6 +89,9 @@ namespace chip8
         // I = nnn
         inline void set_i(std::uint16_t nnn);
 
+        // jmp(nnn + V0)
+        inline std::optional<Error> jmp_reg0(ptr_t nnn);
+
     public:
         Machine(Display &display);
 

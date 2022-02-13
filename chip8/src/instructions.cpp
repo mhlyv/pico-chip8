@@ -170,6 +170,12 @@ namespace chip8
             break;
         }
 
+        case 0xb:
+        {
+            err = jmp_reg0(inst & 0x0fff);
+            break;
+        }
+
         default:
             err = Error::InvalidInstruction;
             break;
@@ -382,5 +388,10 @@ namespace chip8
     inline void Machine::set_i(std::uint16_t nnn)
     {
         registers.I = nnn;
+    }
+
+    inline std::optional<Error> Machine::jmp_reg0(ptr_t nnn)
+    {
+        return jmp(nnn + registers.general[0]);
     }
 };
