@@ -92,6 +92,9 @@ namespace chip8
         // jmp(nnn + V0)
         inline std::optional<Error> jmp_reg0(ptr_t nnn);
 
+        // Vx = rand() & kk;
+        inline void set_rand(std::uint8_t x, std::uint8_t kk);
+
     public:
         Machine(Display &display);
 

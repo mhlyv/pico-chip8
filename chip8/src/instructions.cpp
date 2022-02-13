@@ -1,6 +1,7 @@
 #include <cstdint>
 #include <optional>
 #include <array>
+#include <cstdlib>
 
 #include "chip8/machine.h"
 
@@ -173,6 +174,12 @@ namespace chip8
         case 0xb:
         {
             err = jmp_reg0(inst & 0x0fff);
+            break;
+        }
+
+        case 0xc:
+        {
+            set_rand((inst & 0x0f00) >> 8, (inst & 0x00ff));
             break;
         }
 
@@ -393,5 +400,10 @@ namespace chip8
     inline std::optional<Error> Machine::jmp_reg0(ptr_t nnn)
     {
         return jmp(nnn + registers.general[0]);
+    }
+
+    inline void Machine::set_rand(std::uint8_t x, std::uint8_t kk)
+    {
+        registers.general[x] = std::rand() & kk;
     }
 };
