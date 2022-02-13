@@ -164,6 +164,12 @@ namespace chip8
             break;
         }
 
+        case 0xa:
+        {
+            set_i(inst & 0x0fff);
+            break;
+        }
+
         default:
             err = Error::InvalidInstruction;
             break;
@@ -371,5 +377,10 @@ namespace chip8
         }
 
         return err;
+    }
+
+    inline void Machine::set_i(std::uint16_t nnn)
+    {
+        registers.I = nnn;
     }
 };

@@ -86,6 +86,9 @@ namespace chip8
         // skip next instruction if Vx != Vy
         std::optional<Error> skip_neq_reg(std::uint8_t x, std::uint8_t y);
 
+        // I = nnn
+        inline void set_i(std::uint16_t nnn);
+
     public:
         Machine(Display &display);
 
